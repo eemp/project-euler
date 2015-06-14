@@ -6,7 +6,9 @@ use warnings;
 use Exporter qw(import);
 
 our @EXPORT_OK = qw(
+    get_largest_prime_factor
     get_prime_factors
+    get_prime_factors_hashref
     is_prime
 );
 
@@ -15,6 +17,14 @@ sub get_largest_prime_factor
     my $n = shift;
     my $factors = get_prime_factors($n);
     return $factors->[$#$factors];
+}
+
+sub get_prime_factors_hashref
+{
+    my $n = shift;
+    my $factors = {};
+    map { $factors->{$_}++ } @{get_prime_factors($n)};
+    return $factors;
 }
 
 sub get_prime_factors
