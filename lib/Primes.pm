@@ -14,7 +14,7 @@ sub get_largest_prime_factor
 {
     my $n = shift;
     my $factors = get_prime_factors($n);
-    return $factors[$#$factors];
+    return $factors->[$#$factors];
 }
 
 sub get_prime_factors
