@@ -16,7 +16,7 @@ sub sum_of_sequence
     my (%args) = @_;
     my $s = $args{start};
     my $e = $args{end};
-    my $t = $args{interval};
+    my $t = $args{interval} || 1;
     my $median = ($s + $e)/2;
     my $num_of_terms = ($e-$s)/$t + 1;
     return $median * $num_of_terms;
