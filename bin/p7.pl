@@ -36,7 +36,7 @@ for(my $k = 2; $k < scalar @sieve; $k++)
     }
 }
 
-$solution = $primes[10_001];
+$solution = $primes[10_000]; # prime # 10,001... 0 index
 
 say "Solution = $solution" if $solution; # 104759
 
