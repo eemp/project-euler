@@ -10,6 +10,7 @@ our @EXPORT_OK = qw(
     get_prime_factors
     get_prime_factors_hashref
     is_prime
+    get_primes
 );
 
 sub get_largest_prime_factor
@@ -74,5 +75,30 @@ sub is_prime
     }
 
     return 1;
+}
+
+sub get_primes
+{
+    my %args = @_;
+    my $sieve_size = $args{max};
+
+    ## Erathosthenes Sieve
+    my @primes = ();
+    my @sieve = ();
+    for(my $k = 0; $k < $sieve_size; $k++) { push(@sieve, $k); }
+
+    for(my $k = 2; $k < scalar @sieve; $k++)
+    {
+        if($sieve[$k] != 0)
+        {
+            push(@primes, $k);
+            for(my $l = $k; $l < scalar @sieve; $l+=$k)
+            {
+                $sieve[$l] = 0;
+            }
+        }
+    }
+
+    return \@primes;
 }
 
