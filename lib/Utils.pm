@@ -7,6 +7,7 @@ use Exporter qw(import);
 
 our @EXPORT_OK = qw(
     sum_of_digits
+    sum_of_array
     product_of_array
 );
 
@@ -18,6 +19,17 @@ sub sum_of_digits
     my @digits = split('', $n);
     my $sum = 0;
     map { $sum += $_ } @digits;
+    return $sum;
+}
+
+sub sum_of_array
+{
+    my @arr = @_;
+    my $sum = 0;
+    for(my $k = 0; $k < scalar @arr; $k++)
+    {
+        $sum += $arr[$k];
+    }
     return $sum;
 }
 
