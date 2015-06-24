@@ -3,12 +3,15 @@ package Utils;
 use strict;
 use warnings;
 
+use Sequences qw(sum_of_sequence);
 use Exporter qw(import);
 
 our @EXPORT_OK = qw(
     sum_of_digits
     sum_of_array
     product_of_array
+    get_triangle_numbers
+    get_divisors
 );
 
 # expectations:
@@ -42,5 +45,40 @@ sub product_of_array
         $product *= $arr[$k];
     }
     return $product;
+}
+
+sub get_triangle_numbers
+{
+    my %args = @_;
+    my $nth = $args{n};
+    my $number;
+    if($nth)
+    {
+        $number = sum_of_sequence(
+            start => 1,
+            end => $nth
+        );
+    }
+    return $number;
+}
+
+sub get_divisors
+{
+    my $n = shift;
+    my @divisors;
+    my $sqrt_n = sqrt($n);
+    for(my $k = 1; $k < $sqrt_n; $k++)
+    {
+        if($n % $k == 0)
+        {
+            push(@divisors, $k);
+            push(@divisors, $n / $k);
+        }
+    }
+    if(int($sqrt_n) == $sqrt_n)
+    {
+        push(@divisors, $sqrt_n);
+    }
+    return (\@divisors, scalar @divisors);
 }
 
