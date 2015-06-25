@@ -38,7 +38,7 @@ while(!$solution)
     my ($divisors, $num_of_divisors) = get_divisors($tri_num);
     if($num_of_divisors > 500)
     {
-        $solution = $k;
+        $solution = $tri_num;
         last;
     }
     $k++;
