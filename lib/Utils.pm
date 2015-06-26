@@ -13,6 +13,7 @@ our @EXPORT_OK = qw(
     get_triangle_numbers
     get_divisors
     get_words_for_number
+    max
 );
 
 # expectations:
@@ -148,4 +149,14 @@ sub get_words_for_number
     return $return_array ? @words : join(' ', @words);
 }
 
+sub max
+{
+    my @arr = @_;
+    my $max;
+    for(my $k = 0; $k < scalar @arr; $k++)
+    {
+        $max = $arr[$k] if(!$max || $max < $arr[$k]);
+    }
+    return $max;
+}
 
