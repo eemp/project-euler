@@ -14,6 +14,7 @@ our @EXPORT_OK = qw(
     get_divisors
     get_words_for_number
     max
+    factorial
 );
 
 # expectations:
@@ -158,5 +159,16 @@ sub max
         $max = $arr[$k] if(!$max || $max < $arr[$k]);
     }
     return $max;
+}
+
+sub factorial
+{
+    my $n = shift;
+    my $rv = 1;
+    for(; $n > 1; $n--)
+    {
+        $rv *= $n;
+    }
+    return $rv;
 }
 
