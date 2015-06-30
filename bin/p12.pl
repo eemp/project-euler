@@ -35,8 +35,8 @@ my $k = 1;
 while(!$solution)
 {
     my $tri_num = get_triangle_numbers(n => $k);
-    my ($divisors, $num_of_divisors) = get_divisors($tri_num);
-    if($num_of_divisors > 500)
+    my $divisors = get_divisors($tri_num);
+    if(scalar @$divisors > 500)
     {
         $solution = $tri_num;
         last;
@@ -44,5 +44,5 @@ while(!$solution)
     $k++;
 }
 
-say "Solution = $solution" if $solution; # 12375
+say "Solution = $solution" if $solution; # 76576500
 

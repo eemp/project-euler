@@ -82,7 +82,7 @@ sub get_divisors
     {
         push(@divisors, $sqrt_n);
     }
-    return (\@divisors, scalar @divisors);
+    return \@divisors;
 }
 
 my %words_for_numbers = (

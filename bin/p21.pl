@@ -26,7 +26,7 @@ my %amicables = ();
 my $amicables_sum = 0;
 for(my $k = 2; $k < 10000; $k++)
 {
-    my ($divisors, $total_divisors) = get_divisors($k);
+    my $divisors = get_divisors($k);
     my $divisors_sum = sum_of_array(@$divisors) - $k;
     $divisor_sums_map{$k} = $divisors_sum;
     # say "$k => $divisors_sum";
