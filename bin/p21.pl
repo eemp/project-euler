@@ -34,6 +34,8 @@ for(my $k = 2; $k < 10000; $k++)
 
 foreach my $key (keys %divisor_sums_map)
 {
+    next if $amicables{$key};
+
     my $sum = $divisor_sums_map{$key};
     if($key != $sum && $divisor_sums_map{$sum} && $divisor_sums_map{$sum} == $key)
     {
@@ -41,11 +43,10 @@ foreach my $key (keys %divisor_sums_map)
         $amicables_sum += $sum;
         $amicables{$key} = $sum;
         $amicables{$sum} = $key;
-        # say "$key <=> $sum";
     }
 }
 
 $solution = $amicables_sum;
 
-say "Solution = $solution" if $solution; # 63252
+say "Solution = $solution" if $solution; # 31626
 
