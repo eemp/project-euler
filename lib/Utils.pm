@@ -15,6 +15,7 @@ our @EXPORT_OK = qw(
     get_words_for_number
     max
     factorial
+    sum_array_refs_of_numbers
 );
 
 # expectations:
@@ -170,5 +171,31 @@ sub factorial
         $rv *= $n;
     }
     return $rv;
+}
+
+# assumes positive integer reps
+sub sum_array_refs_of_numbers
+{
+    my ($n1, $n2) = @_;
+    my @result = ();
+    my $carry = 0; # carry is not expected to be > 100 (summing only 2)
+    
+    my @n1 = ( @$n1 );
+    my @n2 = ( @$n2 );
+
+    while(scalar @n1 || scalar @n2)
+    {
+        my $d1 = pop(@n1) || 0;
+        my $d2 = pop(@n2) || 0;
+        my $next_digit = $d1 + $d2 + $carry;
+        $carry = int($next_digit/10);
+        $next_digit = $next_digit%10;
+        push(@result, $next_digit);
+    }
+
+    push(@result, $carry) if $carry;
+    @result = reverse(@result);
+
+    return \@result;
 }
 
