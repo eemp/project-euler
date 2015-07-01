@@ -15,6 +15,7 @@ our @EXPORT_OK = qw(
     get_words_for_number
     max
     factorial
+    get_permutations
 );
 
 # expectations:
@@ -170,5 +171,20 @@ sub factorial
         $rv *= $n;
     }
     return $rv;
+}
+
+sub get_permutations
+{
+    my @chars = @_;
+    @chars = sort @chars;
+
+    # my @permutations = qw(012 021 102 120 201 210);
+    my @permutations = ();
+    foreach my $c (@chars)
+    {
+
+    }
+
+    return \@permutations;
 }
 
