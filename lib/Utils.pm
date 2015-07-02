@@ -16,6 +16,7 @@ our @EXPORT_OK = qw(
     max
     factorial
     sum_array_refs_of_numbers
+    get_recurring_cycle_size_of_fraction
 );
 
 # expectations:
@@ -197,5 +198,35 @@ sub sum_array_refs_of_numbers
     @result = reverse(@result);
 
     return \@result;
+}
+
+# assuming $denominator > $numerator
+sub get_recurring_cycle_size_of_fraction
+{
+    my ($numerator, $denominator) = @_;
+    my $carry = 0;
+    my %digits_in_dec_rep = ();
+    my $curr_digit;
+    my $index = 0;
+    my $size;
+    
+    while(!$size && $numerator)
+    {
+        while($denominator > $numerator) {
+            $numerator *= 10;
+        };
+
+        $curr_digit = int($numerator/$denominator);
+        if($digits_in_dec_rep{$curr_digit})
+        {
+            $size = $index - $digits_in_dec_rep{$curr_digit};
+            last;
+        }
+        
+        $digits_in_dec_rep{$curr_digit} = $index++;
+        $numerator = ($numerator % $denominator);
+    }
+    
+    return $size ? $size : 0;
 }
 
