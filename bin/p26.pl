@@ -27,13 +27,12 @@ Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle. It can be see
 Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 =cut
 
-use constant MAX_DENOM => 1000;
-
 my $solution;
 my $max_size = 0;
 my $optimal_d; # optimal denominator to produce largest recurring cycle
+my $MAX_DENOM = $ARGV[0] || 1000;
 
-for(my $k = 2; $k < MAX_DENOM; $k++)
+for(my $k = 2; $k < $MAX_DENOM; $k++)
 {
     my $cycle_size = get_recurring_cycle_size_of_fraction(1, $k);
     # say "$k => $cycle_size";
@@ -46,5 +45,5 @@ for(my $k = 2; $k < MAX_DENOM; $k++)
 
 $solution = $optimal_d;
 
-say "Solution = $solution" if $solution; # 81
+say "Solution = $solution" if $solution; # 983
 

@@ -203,28 +203,32 @@ sub sum_array_refs_of_numbers
 # assuming $denominator > $numerator
 sub get_recurring_cycle_size_of_fraction
 {
-    my ($numerator, $denominator) = @_;
+    my ($numerator, $denominator, $max_cycle_size) = @_;
     my $carry = 0;
-    my %digits_in_dec_rep = ();
+    my %numerators_seen = ();
     my $curr_digit;
     my $index = 0;
-    my $size;
+    my $size = 0;
+    $max_cycle_size ||= 1_000;
     
-    while(!$size && $numerator)
+    for(my $index = 0; $index < $max_cycle_size; $index++)
     {
         while($denominator > $numerator) {
             $numerator *= 10;
         };
 
         $curr_digit = int($numerator/$denominator);
-        if($digits_in_dec_rep{$curr_digit})
+
+        if($numerators_seen{$numerator})
         {
-            $size = $index - $digits_in_dec_rep{$curr_digit};
+            $size = $index - $numerators_seen{$numerator};
             last;
         }
         
-        $digits_in_dec_rep{$curr_digit} = $index++;
+        $numerators_seen{$numerator} = $index;
         $numerator = ($numerator % $denominator);
+        
+        last if $numerator == 0;
     }
     
     return $size ? $size : 0;
