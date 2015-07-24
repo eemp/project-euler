@@ -17,6 +17,7 @@ our @EXPORT_OK = qw(
     factorial
     sum_array_refs_of_numbers
     get_recurring_cycle_size_of_fraction
+    get_clockwise_spiral_matrix
 );
 
 # expectations:
@@ -232,5 +233,58 @@ sub get_recurring_cycle_size_of_fraction
     }
     
     return $size ? $size : 0;
+}
+
+use feature qw(say);
+use Data::Dumper;
+
+use constant RIGHT => 1;
+use constant DOWN => 2;
+use constant LEFT => 3;
+use constant UP => 0;
+
+sub get_clockwise_spiral_matrix
+{
+    my $size = shift or die "ERROR: size for spiral matrix must be specified!";
+
+    my $mat = Matrix->new($size, $size);
+    my $counter = 1;
+    my $movement_counter = 1;
+    my @direction_cycle = (RIGHT, DOWN, LEFT, UP);
+    my $direction = ($size % 2 == 0) ? LEFT : RIGHT;
+    my @coords = (int($size/2) + 1, int($size/2) + 1);
+    
+    while(!($coords[0] == 1 && $coords[1] == $size))
+    {
+        
+        for(my $k = 0; $k < $movement_counter; $k++)
+        {
+            $mat->set(@coords, $counter++);
+            
+            if($direction == RIGHT)
+            {
+                $coords[1]++;
+            }
+            elsif($direction == DOWN)
+            {
+                $coords[0]++;
+            }
+            elsif($direction == LEFT)
+            {
+                $coords[1]--;
+            }
+            elsif($direction == UP)
+            {
+                $coords[0]--;
+            }
+        }
+
+        $direction = $direction_cycle[$direction];
+        $movement_counter++ if($direction == RIGHT || $direction == LEFT);
+
+        last if $counter > ($size * $size);
+    }
+    
+    return $mat;
 }
 
