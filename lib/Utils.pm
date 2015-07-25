@@ -18,6 +18,8 @@ our @EXPORT_OK = qw(
     sum_array_refs_of_numbers
     get_recurring_cycle_size_of_fraction
     get_clockwise_spiral_matrix
+    get_digits
+    is_pandigital
 );
 
 # expectations:
@@ -286,5 +288,42 @@ sub get_clockwise_spiral_matrix
     }
     
     return $mat;
+}
+
+sub get_digits
+{
+    my $num = shift;
+    return [ split('', $num) ];
+}
+
+sub is_pandigital
+{
+    my (%args) = @_;
+    
+    my $numbers = ref $args{numbers} eq 'ARRAY' ? $args{numbers} : [ $args{numbers} ];
+    my $digits = get_digits(join('', @$numbers)); # lump all the numbers
+    my $pandigits = $args{pandigits} || [ 1..(scalar @$digits) ];
+    my %pandigits = map { $_ => 0 } @$pandigits;
+    
+    return 0 if (scalar(@$digits) != scalar(keys(%pandigits)));
+
+    foreach my $d (@$digits)
+    {
+        if(defined $pandigits{$d})
+        {
+            $pandigits{$d}++;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    foreach my $d (keys %pandigits)
+    {
+        return 0 if($pandigits{$d} == 0);
+    }
+
+    return 1;
 }
 
