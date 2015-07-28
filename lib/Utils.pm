@@ -20,6 +20,7 @@ our @EXPORT_OK = qw(
     get_clockwise_spiral_matrix
     get_digits
     is_pandigital
+    gcd
 );
 
 # expectations:
@@ -325,5 +326,24 @@ sub is_pandigital
     }
 
     return 1;
+}
+
+# find the greatest common divisor - Euclid's Algorithm
+sub gcd
+{
+    my ($n1, $n2) = @_;
+    
+    my $dividend = $n1 > $n2 ? $n1 : $n2;
+    my $divisor = $n1 > $n2 ? $n2 : $n1;
+    my $remainder = $dividend % $divisor;
+    
+    while($remainder)
+    {
+        $dividend = $divisor;
+        $divisor = $remainder;
+        $remainder = $dividend % $divisor;
+    }
+
+    return $divisor; # last divisor is the gcd
 }
 
