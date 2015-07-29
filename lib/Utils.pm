@@ -3,6 +3,10 @@ package Utils;
 use strict;
 use warnings;
 
+use Memoize;
+# know how memoize works... instead of reimplementing a
+# cache every time, getting away with this
+
 use Sequences qw(sum_of_sequence);
 use Exporter qw(import);
 
@@ -167,6 +171,7 @@ sub max
     return $max;
 }
 
+memoize 'factorial';
 sub factorial
 {
     my $n = shift;
