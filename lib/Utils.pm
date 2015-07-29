@@ -25,6 +25,7 @@ our @EXPORT_OK = qw(
     get_digits
     is_pandigital
     gcd
+    get_baseN
 );
 
 # expectations:
@@ -350,5 +351,21 @@ sub gcd
     }
 
     return $divisor; # last divisor is the gcd
+}
+
+# supports upto base 16
+sub get_baseN
+{
+    my ($number, $n) = @_;
+    my $rep = "";
+    my @digits = qw(0 1 2 3 4 5 6 7 8 9 A B C D E F);
+    while($number)
+    {
+        my $r = $number % $n;
+        my $rd = $digits[$r];
+        $rep = $rd . $rep;
+        $number = int($number/$n);
+    }
+    return $rep ? $rep : 0;
 }
 
