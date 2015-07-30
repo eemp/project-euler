@@ -84,12 +84,11 @@ sub get_primes
 
     ## Erathosthenes Sieve
     my @primes = ();
-    my @sieve = ();
-    for(my $k = 0; $k < $sieve_size; $k++) { push(@sieve, $k); }
+    my @sieve = (0..$sieve_size);
 
     for(my $k = 2; $k < scalar @sieve; $k++)
     {
-        if($sieve[$k] != 0)
+        if(defined $sieve[$k] && $sieve[$k] != 0)
         {
             push(@primes, $k);
             for(my $l = $k; $l < scalar @sieve; $l+=$k)

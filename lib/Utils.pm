@@ -305,8 +305,18 @@ sub get_digits
 
 sub is_pandigital
 {
-    my (%args) = @_;
+    my %args;
     
+    if(scalar @_ == 1)
+    {
+        my ($n) = @_;
+        %args = ( numbers => $n );
+    }
+    else
+    {
+        (%args) = @_;
+    }
+
     my $numbers = ref $args{numbers} eq 'ARRAY' ? $args{numbers} : [ $args{numbers} ];
     my $digits = get_digits(join('', @$numbers)); # lump all the numbers
     my $pandigits = $args{pandigits} || [ 1..(scalar @$digits) ];
