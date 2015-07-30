@@ -26,6 +26,7 @@ our @EXPORT_OK = qw(
     is_pandigital
     gcd
     get_baseN
+    get_combinations
 );
 
 # expectations:
@@ -377,5 +378,27 @@ sub get_baseN
         $number = int($number/$n);
     }
     return $rep ? $rep : 0;
+}
+
+sub get_combinations
+{
+    my $opts = shift;
+    $opts = join('', @$opts) if (ref $opts eq 'ARRAY');
+    
+    return [ $opts ] if (length($opts) == 1);
+
+    my @combinations = ();
+    for(my $k = 0; $k < length($opts); $k++)
+    {
+        my $prefix = substr($opts, $k, 1);
+        my $remaining_opts = substr($opts, 0, $k) . substr($opts, $k+1);
+        my $subcombinations = get_combinations($remaining_opts);
+        foreach my $suffix (@$subcombinations)
+        {
+            push(@combinations, "${prefix}${suffix}");
+        }
+    }
+
+    return \@combinations;
 }
 
