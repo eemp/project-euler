@@ -6,6 +6,7 @@ use warnings;
 use feature qw(say);
 use Data::Dumper;
 
+use FindBin qw($Bin);
 use lib "$Bin/../lib";
 
 =pod
