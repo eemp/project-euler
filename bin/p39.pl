@@ -21,7 +21,7 @@ For which value of p <= 1000, is the number of solutions maximised?
 my $solution;
 my $PERIMETER_LIMIT = 1000;
 my $SIDE_LEN_LIMIT = 1000;
-my $count = 0;
+my %triangles_by_perimeter = ();
 
 for(my $a = 1; $a <= $SIDE_LEN_LIMIT; $a++)
 {
@@ -34,12 +34,13 @@ for(my $a = 1; $a <= $SIDE_LEN_LIMIT; $a++)
         my $p = sum_of_array($a, $b, $c);
         if($c**2 == $c2 && $p <= $PERIMETER_LIMIT)
         {
-            $count++;
+            $triangles_by_perimeter{$p}++;
         }
     }
 }
 
-$solution = $count;
+my @perimeters_sorted_by_triangles = sort { $triangles_by_perimeter{$b} <=> $triangles_by_perimeter{$a} } keys %triangles_by_perimeter;
+$solution = $perimeters_sorted_by_triangles[0];
 
 say "Solution = $solution" if $solution; # 325 
 
