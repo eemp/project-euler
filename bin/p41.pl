@@ -26,9 +26,9 @@ for(my $k = 9; $k >= 4; $k--)
     my @digits = (1..$k);
     @digits = reverse(@digits);
     
-    my $possible_combinations = get_permutations(\@digits);
+    my $possible_permutations = get_permutations(\@digits);
     
-    foreach my $c (@$possible_combinations)
+    foreach my $c (@$possible_permutations)
     {
         if(is_prime(int($c)))
         {
