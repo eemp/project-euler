@@ -9,7 +9,7 @@ use Data::Dumper;
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use Primes qw(is_prime);
-use Utils qw(get_combinations is_pandigital);
+use Utils qw(get_permutations is_pandigital);
 
 =pod
 Pandigital prime
@@ -26,7 +26,7 @@ for(my $k = 9; $k >= 4; $k--)
     my @digits = (1..$k);
     @digits = reverse(@digits);
     
-    my $possible_combinations = get_combinations(\@digits);
+    my $possible_combinations = get_permutations(\@digits);
     
     foreach my $c (@$possible_combinations)
     {

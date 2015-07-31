@@ -26,7 +26,7 @@ our @EXPORT_OK = qw(
     is_pandigital
     gcd
     get_baseN
-    get_combinations
+    get_permutations
     get_word_value
 );
 
@@ -381,7 +381,7 @@ sub get_baseN
     return $rep ? $rep : 0;
 }
 
-sub get_combinations
+sub get_permutations
 {
     my $opts = shift;
     $opts = join('', @$opts) if (ref $opts eq 'ARRAY');
@@ -393,7 +393,7 @@ sub get_combinations
     {
         my $prefix = substr($opts, $k, 1);
         my $remaining_opts = substr($opts, 0, $k) . substr($opts, $k+1);
-        my $subcombinations = get_combinations($remaining_opts);
+        my $subcombinations = get_permutations($remaining_opts);
         foreach my $suffix (@$subcombinations)
         {
             push(@combinations, "${prefix}${suffix}");
