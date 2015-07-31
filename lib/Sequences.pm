@@ -9,6 +9,7 @@ use Exporter qw(import);
 our @EXPORT_OK = qw(
     sum_of_sequence
     get_collatz_sequence_size
+    get_triangle_numbers
 );
 
 # expectations:
@@ -38,5 +39,19 @@ sub get_collatz_sequence_size
     my $seq_size = get_collatz_sequence_size($next) + 1;
     $collatz_cache->{$n} = $seq_size;
     return $seq_size;
+}
+
+sub get_triangle_numbers
+{
+    my ($amount) = shift;
+    
+    my @numbers = ();
+    # n*(n+1) / 2
+    for(my $n = 1; $n <= $amount; $n++)
+    {
+        push(@numbers, $n*($n+1)/2);
+    }
+
+    return \@numbers;
 }
 
