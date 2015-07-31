@@ -8,6 +8,7 @@ use FindBin qw($Bin);
 use Data::Dumper;
 
 use lib "$Bin/../lib";
+use Utils qw(get_word_value);
 
 =pod
 Using bin/p22.txt, a 46K text file containing over five-thousand first names, begin by sorting it into alphabetical order. Then working out the alphabetical value for each name, multiply this value by its alphabetical position in the list to obtain a name score.
@@ -20,7 +21,6 @@ What is the total of all the name scores in the file?
 my $solution = 0;
 
 my $score = 1;
-my %char_scores = map { uc($_) => $score++ } qw(a b c d e f g h i j k l m n o p q r s t u v w x y z);
 
 ## get names
 my @names = (); # processed clean names
@@ -47,20 +47,9 @@ foreach my $name_part (@parts)
 my $k = 1;
 foreach my $name (@names)
 {
-    $solution += (get_score($name)*$k);
+    $solution += (get_word_value($name)*$k);
     $k++;
 }
 
 say "Solution = $solution" if $solution; # 871198282
-
-sub get_score
-{
-    my @chars = split('', shift);
-    my $score = 0;
-    foreach my $char (@chars)
-    {
-        $score += $char_scores{$char};
-    }
-    return $score;
-}
 

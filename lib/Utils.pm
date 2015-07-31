@@ -27,6 +27,7 @@ our @EXPORT_OK = qw(
     gcd
     get_baseN
     get_combinations
+    get_word_value
 );
 
 # expectations:
@@ -400,5 +401,19 @@ sub get_combinations
     }
 
     return \@combinations;
+}
+
+sub get_word_value
+{
+    my $word = shift;
+    my $val = 1;
+    my %char_vals = map { uc($_) => $val++ } qw(a b c d e f g h i j k l m n o p q r s t u v w x y z);
+    $val = 0;
+    for(my $k = 0; $k < length($word); $k++)
+    {
+        my $char = substr($word, $k, 1);
+        $val += $char_vals{$char};
+    }
+    return $val;
 }
 
