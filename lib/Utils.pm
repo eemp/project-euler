@@ -14,7 +14,6 @@ our @EXPORT_OK = qw(
     sum_of_digits
     sum_of_array
     product_of_array
-    get_triangle_numbers
     get_divisors
     get_words_for_number
     max
@@ -61,21 +60,6 @@ sub product_of_array
         $product *= $arr[$k];
     }
     return $product;
-}
-
-sub get_triangle_numbers
-{
-    my %args = @_;
-    my $nth = $args{n};
-    my $number;
-    if($nth)
-    {
-        $number = sum_of_sequence(
-            start => 1,
-            end => $nth
-        );
-    }
-    return $number;
 }
 
 sub get_divisors

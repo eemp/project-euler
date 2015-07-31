@@ -34,7 +34,7 @@ my @words = split(',', $words_string);
 @words = map { $_ =~ s/"//g; $_ } @words;
 
 my $triangle_step = TRI_GET_STEP_SIZE();
-my $triangle_numbers = get_triangle_numbers($triangle_step);
+my $triangle_numbers = get_triangle_numbers(max_n => $triangle_step);
 my %triangle_numbers_map = map { $_ => 1 } @$triangle_numbers;
 
 my $triangle_words_count = 0;

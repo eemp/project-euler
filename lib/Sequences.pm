@@ -11,6 +11,7 @@ our @EXPORT_OK = qw(
     get_collatz_sequence_size
     get_triangle_numbers
 );
+# some are technically not sequences in the mathematical sense
 
 # expectations:
 # %args = ( start => 3, end => 999, interval => 3 ); # 3, 6, ..., 999
@@ -43,11 +44,21 @@ sub get_collatz_sequence_size
 
 sub get_triangle_numbers
 {
-    my ($amount) = shift;
+    my (%args) = @_;
     
+    my $n = $args{n};
+    my $maxn = $args{max_n};
+
+    if(!$n && !$maxn)
+    {
+        die 'ERROR: invalid use of get_triangle_numbers - supply either n or max_n params';
+    }
+
+    return ($n*($n+1)/2) if defined $n;
+
     my @numbers = ();
     # n*(n+1) / 2
-    for(my $n = 1; $n <= $amount; $n++)
+    for($n = 1; $n <= $maxn; $n++)
     {
         push(@numbers, $n*($n+1)/2);
     }
