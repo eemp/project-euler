@@ -60,5 +60,5 @@ while(!$solution && $k < $SOLUTION_CAP)
     $k++;
 }
 
-say "Solution = $solution" if $solution; #  
+say "Solution = $solution" if $solution; # 134043 
 
