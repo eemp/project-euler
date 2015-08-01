@@ -56,7 +56,7 @@ foreach my $k (keys %grouped_perms)
     }
 }
 
-say "Solution = $solution" if $solution; #  
+say "Solution = $solution" if $solution; # 296962999629 
 
 sub get_sorted_digits
 {
