@@ -13,52 +13,9 @@ our @EXPORT_OK = qw(
     get_primes
 );
 
-sub get_largest_prime_factor
-{
-    my $n = shift;
-    my $factors = get_prime_factors($n);
-    return $factors->[$#$factors];
-}
-
-sub get_prime_factors_hashref
-{
-    my $n = shift;
-    my $factors = {};
-    map { $factors->{$_}++ } @{get_prime_factors($n)};
-    return $factors;
-}
-
-sub get_prime_factors
-{
-    my $n = shift;
-    my $factor_product = 1;
-    my $k = 2;
-    my @factors = ();
-
-    while($n % 2 == 0)
-    {
-        $n /= 2;
-        push(@factors, 2);
-    }
-
-    $k++;
-    while($factor_product < $n)
-    {
-        if(is_prime($k))
-        {
-            while($n % $k == 0)
-            {
-                $n /= $k;
-                push(@factors, $k);
-            }
-        }
-        $k+=2;
-    }
-    return \@factors;
-}
-
 # first 10 primes
-our %primes = map {$_ => 1} qw(2 3 5 7 11 13 17 19 23 29);
+our $primes_list = [ qw(2 3 5 7 11 13 17 19 23 29) ];
+our %primes = map {$_ => 1} @$primes_list;
 our $largest_known_prime = 29;
 sub is_prime
 {
@@ -73,6 +30,9 @@ sub is_prime
     {
         return 0 if($n % $k == 0);
     }
+
+    $primes{$n} = 1;
+    # don't update largest_known_prime since primes prior to this were not discovered really
 
     return 1;
 }
@@ -99,6 +59,9 @@ sub get_primes
         if(defined $sieve[$k] && $sieve[$k] != 0)
         {
             push(@primes, $k);
+            $primes{$k}++;
+            $largest_known_prime = $largest_known_prime > $k ? $largest_known_prime : $k;
+
             for(my $l = $k; $l < scalar @sieve; $l+=$k)
             {
                 $sieve[$l] = 0;
@@ -106,6 +69,82 @@ sub get_primes
         }
     }
 
+    $primes_list = \@primes if($largest_known_prime == $primes[$#primes]);
+
     return \@primes;
 }
+
+sub get_largest_prime_factor
+{
+    my $n = shift;
+    my $factors = get_prime_factors($n);
+    return $factors->[$#$factors];
+}
+
+sub get_prime_factors_hashref
+{
+    my $n = shift;
+    return get_prime_factors($n, 1);
+}
+
+sub get_prime_factors
+{
+    my $n = shift;
+    my $hashref = shift;
+    my $k = 2;
+    my @factors = ();
+    my %factors = ();
+
+    if($largest_known_prime > $n)
+    {
+        if($primes{$n})
+        {
+            push(@factors, $n);
+            $factors{$n}++;
+        }
+        else
+        {
+            for(my $k = 0; $k < scalar @$primes_list; $k++)
+            {
+                my $p = $primes_list->[$k];
+                while($n % $p == 0)
+                {
+                    $n /= $p;
+                    push(@factors, $p);
+                    $factors{$p}++;
+                }
+                last if $n == 1;
+            }
+        }
+    }
+    else
+    {
+        while($n % 2 == 0)
+        {
+            $n /= 2;
+            push(@factors, 2);
+            $factors{$k}++;
+        }
+
+        $k++;
+        while($n > 1)
+        {
+            my $is_prime = ($k <= $largest_known_prime && $primes{$k}) || ($k > $largest_known_prime && is_prime($k));
+            
+            if($is_prime)
+            {
+                while($n % $k == 0)
+                {
+                    $n /= $k;
+                    push(@factors, $k);
+                    $factors{$k}++;
+                }
+            }
+            $k+=2;
+        }
+    }
+
+    return $hashref ? \%factors : \@factors;
+}
+
 
