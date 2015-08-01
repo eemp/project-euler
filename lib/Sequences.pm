@@ -10,6 +10,8 @@ our @EXPORT_OK = qw(
     sum_of_sequence
     get_collatz_sequence_size
     get_triangle_numbers
+    get_pentagonal_numbers
+    get_hexagonal_numbers
 );
 # some are technically not sequences in the mathematical sense
 
@@ -80,6 +82,7 @@ sub get_tph_numbers
     my (%args) = @_;
     
     my $n = $args{n};
+    my $minn = $args{min_n} || 1;
     my $maxn = $args{max_n};
     my $formulaFn = $args{fn};
 
@@ -92,7 +95,7 @@ sub get_tph_numbers
 
     my @numbers = ();
     # n*(n+1) / 2
-    for($n = 1; $n <= $maxn; $n++)
+    for($n = $minn; $n <= $maxn; $n++)
     {
         push(@numbers, $formulaFn->($n));
     }
