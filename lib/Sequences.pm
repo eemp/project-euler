@@ -42,25 +42,59 @@ sub get_collatz_sequence_size
     return $seq_size;
 }
 
+sub get_triangle_number_n
+{
+    my $n = shift;
+    return ($n*($n+1)/2);
+}
+
+sub get_pentagonal_number_n
+{
+    my $n = shift;
+    return ($n*(3*$n-1)/2);
+}
+
+sub get_hexagonal_number_n
+{
+    my $n = shift;
+    return ($n*(2*$n-1));
+}
+
 sub get_triangle_numbers
+{
+    return get_tph_numbers(@_, fn => \&get_triangle_number_n);
+}
+
+sub get_pentagonal_numbers
+{
+    return get_tph_numbers(@_, fn => \&get_pentagonal_number_n);
+}
+
+sub get_hexagonal_numbers
+{
+    return get_tph_numbers(@_, fn => \&get_hexagonal_number_n);
+}
+
+sub get_tph_numbers
 {
     my (%args) = @_;
     
     my $n = $args{n};
     my $maxn = $args{max_n};
+    my $formulaFn = $args{fn};
 
     if(!$n && !$maxn)
     {
-        die 'ERROR: invalid use of get_triangle_numbers - supply either n or max_n params';
+        die "ERROR: invalid use of get_(tri/pent/hex)_numbers - supply either n or max_n params";
     }
 
-    return ($n*($n+1)/2) if defined $n;
+    return $formulaFn->($n) if defined $n;
 
     my @numbers = ();
     # n*(n+1) / 2
     for($n = 1; $n <= $maxn; $n++)
     {
-        push(@numbers, $n*($n+1)/2);
+        push(@numbers, $formulaFn->($n));
     }
 
     return \@numbers;
