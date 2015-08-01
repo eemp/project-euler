@@ -79,8 +79,16 @@ sub is_prime
 
 sub get_primes
 {
-    my %args = @_;
-    my $sieve_size = $args{max};
+    my $sieve_size;
+    if(scalar @_ == 1)
+    {
+        ($sieve_size) = shift;
+    }
+    else
+    {
+        my %args = @_;
+        $sieve_size = $args{max};
+    }
 
     ## Erathosthenes Sieve
     my @primes = ();
