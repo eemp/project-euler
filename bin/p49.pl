@@ -9,6 +9,7 @@ use Data::Dumper;
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use Primes qw(get_primes);
+use Utils qw(get_sorted_digits);
 
 =pod
 The arithmetic sequence, 1487, 4817, 8147, in which each of the terms increases by 3330, is unusual in two ways: (i) each of the three terms are prime, and, (ii) each of the 4-digit numbers are permutations of one another.
@@ -57,12 +58,4 @@ foreach my $k (keys %grouped_perms)
 }
 
 say "Solution = $solution" if $solution; # 296962999629 
-
-sub get_sorted_digits
-{
-    my $n = shift;
-    my @digits = split('', $n);
-    @digits = sort @digits;
-    return join('', @digits);
-}
 

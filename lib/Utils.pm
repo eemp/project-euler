@@ -11,6 +11,7 @@ use Sequences qw(sum_of_sequence);
 use Exporter qw(import);
 
 our @EXPORT_OK = qw(
+    sum
     sum_of_digits
     sum_of_array
     product_of_array
@@ -27,6 +28,7 @@ our @EXPORT_OK = qw(
     get_baseN
     get_permutations
     get_word_value
+    get_sorted_digits
 );
 
 # expectations:
@@ -399,5 +401,18 @@ sub get_word_value
         $val += $char_vals{$char};
     }
     return $val;
+}
+
+sub sum
+{
+    return sum_of_array(@_);
+}
+
+sub get_sorted_digits
+{
+    my $n = shift;
+    my @digits = split('', $n);
+    @digits = sort @digits;
+    return join('', @digits);
 }
 
