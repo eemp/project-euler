@@ -22,6 +22,7 @@ sub is_prime
     my $n = shift;
 
     return $primes{$n} if($n < $largest_known_prime);
+    return 0 if $n < 2;
     return 0 if $n % 2 == 0;
 
     my $k = 3;

@@ -7,6 +7,7 @@ use Memoize;
 # know how memoize works... instead of reimplementing a
 # cache every time, getting away with this
 
+use Matrix;
 use Sequences qw(sum_of_sequence);
 use Exporter qw(import);
 
@@ -22,6 +23,7 @@ our @EXPORT_OK = qw(
     sum_array_refs_of_numbers
     get_recurring_cycle_size_of_fraction
     get_clockwise_spiral_matrix
+    get_counter_clockwise_spiral_matrix
     get_digits
     is_pandigital
     gcd
@@ -235,23 +237,43 @@ sub get_recurring_cycle_size_of_fraction
 use feature qw(say);
 use Data::Dumper;
 
-use constant RIGHT => 1;
-use constant DOWN => 2;
-use constant LEFT => 3;
-use constant UP => 0;
+use constant RIGHT  => 1;
+use constant DOWN   => 2;
+use constant LEFT   => 3;
+use constant UP     => 0;
+
+use constant COUNTERCLOCKWISE => 1;
+use constant CLOCKWISE => 2;
 
 sub get_clockwise_spiral_matrix
 {
+    my $size = shift;
+    return get_spiral_matrix($size, CLOCKWISE);
+}
+
+sub get_counter_clockwise_spiral_matrix
+{
+    my $size = shift;
+    return get_spiral_matrix($size, COUNTERCLOCKWISE);
+}
+
+sub get_spiral_matrix
+{
     my $size = shift or die "ERROR: size for spiral matrix must be specified!";
+    my $direction = shift;
 
     my $mat = Matrix->new($size, $size);
     my $counter = 1;
     my $movement_counter = 1;
-    my @direction_cycle = (RIGHT, DOWN, LEFT, UP);
-    my $direction = ($size % 2 == 0) ? LEFT : RIGHT;
+    my @direction_cycle = $direction == CLOCKWISE ? (RIGHT, DOWN, LEFT, UP) : (RIGHT, UP, LEFT, DOWN);
     my @coords = (int($size/2) + 1, int($size/2) + 1);
+    my @term_coords = $direction == CLOCKWISE ? 
+        (1, $size) :
+        ($size, $size);
+    $direction = shift @direction_cycle;
+    push(@direction_cycle, $direction);
     
-    while(!($coords[0] == 1 && $coords[1] == $size))
+    while(!($coords[0] == $term_coords[0] && $coords[1] == $term_coords[1]))
     {
         
         for(my $k = 0; $k < $movement_counter; $k++)
@@ -276,7 +298,8 @@ sub get_clockwise_spiral_matrix
             }
         }
 
-        $direction = $direction_cycle[$direction];
+        $direction = shift(@direction_cycle);
+        push(@direction_cycle, $direction);
         $movement_counter++ if($direction == RIGHT || $direction == LEFT);
 
         last if $counter > ($size * $size);
