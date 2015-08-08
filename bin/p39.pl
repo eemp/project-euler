@@ -42,5 +42,5 @@ for(my $a = 1; $a <= $SIDE_LEN_LIMIT; $a++)
 my @perimeters_sorted_by_triangles = sort { $triangles_by_perimeter{$b} <=> $triangles_by_perimeter{$a} } keys %triangles_by_perimeter;
 $solution = $perimeters_sorted_by_triangles[0];
 
-say "Solution = $solution" if $solution; # 325 
+say "Solution = $solution" if $solution; # 840 
 
