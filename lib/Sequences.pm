@@ -12,6 +12,7 @@ our @EXPORT_OK = qw(
     get_triangle_numbers
     get_pentagonal_numbers
     get_hexagonal_numbers
+    is_sequence
 );
 # some are technically not sequences in the mathematical sense
 
@@ -101,5 +102,16 @@ sub get_tph_numbers
     }
 
     return \@numbers;
+}
+
+sub is_sequence
+{
+    my (@seq) = @_;
+    my $step = $seq[1] - $seq[0];
+    for(my $k = 0; $k < scalar @seq - 1; $k++)
+    {
+        return 0 if($step != $seq[$k+1] - $seq[$k]);
+    }
+    return 1;
 }
 
