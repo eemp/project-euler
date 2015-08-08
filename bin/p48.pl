@@ -65,5 +65,5 @@ for(my $k = 1; $k <= $UPTO; $k++)
 }
 
 $solution = join('', @last_digits);
-say "Solution = $solution" if $solution; #  
+say "Solution = $solution" if $solution; # 9110846700 
 
