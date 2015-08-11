@@ -31,6 +31,7 @@ our @EXPORT_OK = qw(
     get_permutations
     get_word_value
     get_sorted_digits
+    sum_large_numbers
 );
 
 # expectations:
@@ -311,7 +312,7 @@ sub get_spiral_matrix
 sub get_digits
 {
     my $num = shift;
-    return [ split('', $num) ];
+    return [ map {int($_)} split('', $num) ];
 }
 
 sub is_pandigital
@@ -437,5 +438,30 @@ sub get_sorted_digits
     my @digits = split('', $n);
     @digits = sort @digits;
     return join('', @digits);
+}
+
+sub sum_large_numbers
+{
+    my ($n1, $n2) = @_;
+    my $sum = [];
+    my $carry = 0;
+    my $nsize;
+
+    $n1 = get_digits($n1) if ref $n1 ne 'ARRAY';
+    $n2 = get_digits($n2) if ref $n2 ne 'ARRAY';
+    $nsize = scalar @$n1 > scalar @$n2 ? scalar @$n1 : scalar @$n2;
+    @$n1 = ( (0) x ($nsize - scalar @$n1), @$n1 );
+    @$n2 = ( (0) x ($nsize - scalar @$n2), @$n2 );
+    
+    for(my $k = $#$n1; $k >= 0; $k--)
+    {
+        my $next_digit = ($n1->[$k] + $n2->[$k] + $carry) % 10;
+        $carry = int(($n1->[$k] + $n2->[$k] + $carry) / 10);
+        unshift(@$sum, $next_digit);
+    }
+    
+    @$sum = (@{get_digits($carry)}, @$sum) if $carry;
+
+    return $sum;
 }
 

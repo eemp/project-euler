@@ -12,8 +12,9 @@ our @EXPORT_OK = qw(
 sub is_palindrome
 {
     my $n = shift;
+    $n = ref $n eq 'ARRAY' ? join('', @$n) : $n;
     my @chars = split('', $n);
     my @reverse_chars = reverse @chars;
     my $reverse_n = join('', @reverse_chars);
-    return $n == $reverse_n;
+    return $n eq $reverse_n;
 }
