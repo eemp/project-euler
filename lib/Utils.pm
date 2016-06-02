@@ -32,6 +32,7 @@ our @EXPORT_OK = qw(
     get_word_value
     get_sorted_digits
     sum_large_numbers
+    get_combinations
 );
 
 # expectations:
@@ -464,4 +465,33 @@ sub sum_large_numbers
 
     return $sum;
 }
+
+
+sub get_combinations
+{
+    my ($size, @arr) = @_;
+    my @combinations = ();
+    
+    if($size == 1) {
+        foreach my $elem (@arr) {
+            push(@combinations, [ $elem ]);
+        }
+        return \@combinations;
+    }
+
+    while(my $elem = shift(@arr)) {
+        if(scalar @arr < $size - 1) {
+            last;
+        }
+
+        my $subCombinations = get_combinations($size-1, @arr);
+        foreach my $sc (@$subCombinations) {
+            @$sc = ($elem, @$sc);
+            push(@combinations, $sc);
+        }
+    }
+
+    return \@combinations;
+}
+
 

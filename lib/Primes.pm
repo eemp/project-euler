@@ -27,7 +27,14 @@ sub is_prime
 
     my $k = 3;
     my $factor_uplimit = int(sqrt($n)) + 1; # upper limit of potential factor of $n
-    for($k = 3; $k < $factor_uplimit; $k+=2)
+    
+    foreach my $p (@$primes_list) {
+        if($n % $p == 0 || $p > $factor_uplimit) {
+            return 0;
+        }
+    }
+
+    for($k = $largest_known_prime; $k < $factor_uplimit; $k+=2)
     {
         return 0 if($n % $k == 0);
     }
