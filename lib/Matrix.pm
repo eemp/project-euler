@@ -39,7 +39,7 @@ sub numCols
 sub get
 {
     my ($self, $row, $col) = @_;
-    $row -= 1;
+    $row -= 1; # TODO: this not being 0 indexed was a terrible idea
     $col -= 1;
     my $cols = $self->numCols;
     my $data = $self->{_data};

@@ -18,6 +18,7 @@ our @EXPORT_OK = qw(
     product_of_array
     get_divisors
     get_words_for_number
+    min
     max
     factorial
     sum_array_refs_of_numbers
@@ -151,6 +152,17 @@ sub get_words_for_number
     }
     
     return $return_array ? @words : join(' ', @words);
+}
+
+sub min
+{
+    my @arr = @_;
+    my $min;
+    for(my $k = 0; $k < scalar @arr; $k++)
+    {
+        $min = $arr[$k] if(!$min || $min > $arr[$k]);
+    }
+    return $min;
 }
 
 sub max
