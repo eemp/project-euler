@@ -9,7 +9,7 @@ use Data::Dumper;
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use Primes qw(is_prime);
-use Utils qw(get_permutations is_pandigital);
+use Utils qw(get_permutations);
 
 =pod
 Pandigital prime

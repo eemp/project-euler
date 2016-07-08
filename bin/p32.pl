@@ -8,7 +8,7 @@ use FindBin qw($Bin);
 use Data::Dumper;
 
 use lib "$Bin/../lib";
-use Utils qw(is_pandigital sum_of_array);
+use Utils qw(is_pandigital get_digits sum_of_array);
 
 =pod
 We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n exactly once; for example, the 5-digit number, 15234, is 1 through 5 pandigital.
@@ -26,14 +26,20 @@ my %pandigital_products = ();
 
 my ($k, $l); # multiplier, multiplicand
 
-for($k = 1; $k < 1000; $k++)
+for($k = 2; $k < 10000; $k++)
 {
-    for(my $l = 1; $l < 1000; $l++)
+    for(my $l = 2; $l < 1000; $l++)
     {
         my $product = $k * $l;
-        if(is_pandigital(numbers => [ $k, $l, $product ], pandigits => [ qw( 1 2 3 4 5 6 7 8 9 ) ]))
+        my $panDigitalNumber = join('', $k, $l, $product);
+        my $digits = get_digits($panDigitalNumber);
+
+        last if (scalar @$digits > 9);
+        next if(scalar @$digits != 9);
+
+        if(is_pandigital(digits => $digits, pandigits => [ qw( 1 2 3 4 5 6 7 8 9 ) ]))
         {
-            #say "$k * $l = $product";
+            say "$k * $l = $product";
             $pandigital_products{$product} = 1;
         }
     }
@@ -41,5 +47,5 @@ for($k = 1; $k < 1000; $k++)
 
 $solution = sum_of_array(keys %pandigital_products);
 
-say "Solution = $solution" if $solution; # 30424
+say "Solution = $solution" if $solution; # 45228
 

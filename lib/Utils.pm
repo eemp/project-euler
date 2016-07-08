@@ -342,8 +342,13 @@ sub is_pandigital
         (%args) = @_;
     }
 
-    my $numbers = ref $args{numbers} eq 'ARRAY' ? $args{numbers} : [ $args{numbers} ];
-    my $digits = get_digits(join('', @$numbers)); # lump all the numbers
+    my $digits = $args{digits};
+
+    if(!$digits  && $args{numbers}) {
+        my $numbers = ref $args{numbers} eq 'ARRAY' ? $args{numbers} : [ $args{numbers} ];
+        $digits = get_digits(join('', @$numbers)); # lump all the numbers
+    }
+
     my $pandigits = $args{pandigits} || [ 1..(scalar @$digits) ];
     my %pandigits = map { $_ => 0 } @$pandigits;
     
@@ -351,19 +356,8 @@ sub is_pandigital
 
     foreach my $d (@$digits)
     {
-        if(defined $pandigits{$d})
-        {
-            $pandigits{$d}++;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    foreach my $d (keys %pandigits)
-    {
-        return 0 if($pandigits{$d} == 0);
+        $pandigits{$d}++ if(defined $pandigits{$d});
+        return 0 if(!$pandigits{$d} || $pandigits{$d} > 1);
     }
 
     return 1;
