@@ -8,7 +8,7 @@ use FindBin qw($Bin);
 use Data::Dumper;
 
 use lib "$Bin/../lib";
-use Primes qw(get_prime_factors_hashref);
+use Primes qw(get_primes getPrimeFactors getPrimeFactors_usingPrimes);
 
 # 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
 # What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
@@ -20,11 +20,13 @@ use Primes qw(get_prime_factors_hashref);
 # for example, two 2's make 4, but four 2's make 16
 # so at least four 4's must make solution
 my $solution;
+my $primes = get_primes(20);
 my $required_factors = {};
 my $k = 2;
 for($k = 2; $k <= 20; $k++)
 {
-    my $k_factors = get_prime_factors_hashref($k);
+    my $k_factors = getPrimeFactors($k);
+    # my $k_factors = getPrimeFactors_usingPrimes($k, $primes);
     ## update required_factors
     foreach my $f (keys %$k_factors)
     {
@@ -39,5 +41,5 @@ foreach my $f (keys %$required_factors)
     $solution *= ($f**$required_factors->{$f});
 }
 
-say "Solution = $solution";
+say "Solution = $solution"; # 232792560
 

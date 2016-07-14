@@ -8,7 +8,7 @@ use FindBin qw($Bin);
 use Data::Dumper;
 
 use lib "$Bin/../lib";
-use Primes qw(get_prime_factors); 
+use Primes qw(getPrimeFactors); 
 
 =pod
 Consider all integer combinations of a^b for 2 <= a <= 5 and 2 <= b <= 5:
@@ -49,14 +49,14 @@ sub get_factors_of_powers
 {
     my ($base, $exp) = @_;
     my @factors = ();
-    my $base_factors = get_prime_factors($base);
-    foreach my $f (@$base_factors)
-    {
-        for(my $k = 0; $k < $exp; $k++)
-        {
-            push(@factors, $f);
-        }
+    my $baseFactors = getPrimeFactors($base);
+    my @baseFactors = ();
+    
+    foreach my $f (sort {$a <=> $b} keys %$baseFactors) {
+        my $factorPower = $baseFactors->{$f};
+        push(@factors, ($f) x ($factorPower*$exp));
     }
+
     return \@factors;
 }
 
