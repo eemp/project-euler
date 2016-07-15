@@ -4,11 +4,11 @@ use strict;
 use warnings;
 
 use Memoize;
-# know how memoize works... instead of reimplementing a
-# cache every time, getting away with this
 
 use Matrix;
 use Sequences qw(sum_of_sequence);
+use ProductChain;
+
 use Exporter qw(import);
 
 our @EXPORT_OK = qw(
@@ -34,6 +34,7 @@ our @EXPORT_OK = qw(
     get_sorted_digits
     sum_large_numbers
     get_combinations
+    combinatorics
 );
 
 # expectations:
@@ -500,4 +501,14 @@ sub get_combinations
     return \@combinations;
 }
 
+sub combinatorics
+{
+    my ($n, $r) = @_;
+    my $nFactorial = ProductChain->new(1..$n);
+    my $rFactorial = ProductChain->new(1..$r);
+    my $nMinusRFactorial = ProductChain->new(1..($n-$r));
+    $nFactorial->reduceByAnotherProductChain($rFactorial);
+    $nFactorial->reduceByAnotherProductChain($nMinusRFactorial);
+    return $nFactorial->value;
+}
 
